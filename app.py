@@ -48,7 +48,6 @@ def create_numbered_list(titles):
         last_level = level
 
     return result
-
 def extract_table_of_contents(soup):
     """
     Extracts the table of contents from a BeautifulSoup object.
