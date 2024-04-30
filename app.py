@@ -18,7 +18,42 @@ def extract_titles(soup):
         for tag in soup.find_all(f'h{level}'):
             titles.append((level, tag.text))
     return titles
+def trouver_h2_h4(soup):
+    result = {}
+    h1_tags = soup.find_all('h1')
+    
+    for index, h1_tag in enumerate(h1_tags):
+        h1_text = h1_tag.get_text()
+        result[h1_text] = {}
+        
+        next_h1 = None
+        if index < len(h1_tags) - 1:
+            next_h1 = h1_tags[index + 1]
 
+        h2_tags = h1_tag.find_next_siblings('h2', until=next_h1)
+        for h2_index, h2_tag in enumerate(h2_tags):
+            h2_text = h2_tag.get_text()
+            result[h1_text][f"{index + 1}.{chr(97 + h2_index).upper()}.{h2_text}"] = []
+
+            next_h2 = None
+            if h2_index < len(h2_tags) - 1:
+                next_h2 = h2_tags[h2_index + 1]
+
+            h3_tags = h2_tag.find_next_siblings(['h3'], until=next_h2)
+            for h3_tag in h3_tags:
+                h3_text = h3_tag.get_text()
+                result[h1_text][f"{index + 1}.{chr(97 + h2_index).upper()}.{h2_text}"][f"{h3_text}"] = []
+
+                next_h3 = None
+                h3_index = 0
+                if h3_index < len(h3_tags) - 1:
+                    next_h3 = h3_tags[h3_index + 1]
+
+                h4_tags = h3_tag.find_next_siblings(['h4'], until=next_h3)
+                for h4_tag in h4_tags:
+                    result[h1_text][f"{index + 1}.{chr(97 + h2_index).upper()}.{h2_text}"][f"{h3_text}"].append(h4_tag.get_text())
+
+    return json.dumps(result, ensure_ascii=False, indent=4)
 def create_numbered_list(titles):
     import roman  # Assuming roman module is imported for roman numeral conversion
     counters = [0, 0, 0, 0]  # Counters for h1, h2, h3, h4
@@ -164,7 +199,7 @@ def get_html_text(url):
            
             if response.status_code == 200:
                 soup=BeautifulSoup(response.text)
-                fj={'status': 'success','titles':create_numbered_list(extract_titles(soup)),'titre':extract_title(soup),'metas':extract_meta_tags(soup),'final':str(response.url),'prefix':prefix, 'data': soup.get_text()}#,'tst':str(tst),'testedurl':testedurl,'lasturl':str(list(map(lambda a:a.url,response.history))),
+                fj={'status': 'success','titles':trouver_h2_h4(soup),'titre':extract_title(soup),'metas':extract_meta_tags(soup),'final':str(response.url),'prefix':prefix, 'data': soup.get_text()}#,'tst':str(tst),'testedurl':testedurl,'lasturl':str(list(map(lambda a:a.url,response.history))),
                 
                 fj.update(scrape_headings_from_html(soup))
                 
