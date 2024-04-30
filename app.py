@@ -20,27 +20,32 @@ def extract_titles(soup):
     return titles
 
 def create_numbered_list(titles):
-    """Crée une liste numérotée avec des numéros, lettres et chiffres romains."""
-    counters = [0, 0, 0, 0]  # Compteurs pour h1, h2, h3, h4
+    import roman  # Assuming roman module is imported for roman numeral conversion
+    counters = [0, 0, 0, 0]  # Counters for h1, h2, h3, h4
     result = {}
+    last_level = 1  # Starting level assumed as h1
 
     for level, title in titles:
-        # Incrémenter le bon compteur et réinitialiser les compteurs des niveaux inférieurs
+        # Reset lower counters if we ascend a level
+        if level > last_level:
+            for i in range(level - 1, 4):
+                counters[i] = 0
+
+        # Increment the counter for the current level
         counters[level - 1] += 1
-        for i in range(level, 4):
-            counters[i] = 0
 
-        # Créer la préfixe basée sur le niveau
+        # Construct prefix based on current level
         if level == 1:
-            prefix = str(counters[0])
+            prefix = "0"
         elif level == 2:
-            prefix = f"{counters[0]}.{chr(96 + counters[1])}"
+            prefix = str(counters[1])
         elif level == 3:
-            prefix = f"{counters[0]}.{chr(96 + counters[1])}.{roman.toRoman(counters[2])}"
-        else:
-            prefix = f"{counters[0]}.{chr(96 + counters[1])}.{roman.toRoman(counters[2])}.{counters[3]}"
+            prefix = f"{counters[1]}{chr(96 + counters[2])}"
+        elif level == 4:
+            prefix = f"{counters[1]}{chr(96 + counters[2])}-{roman.toRoman(counters[3]).lower()}"
 
-        result[prefix]=title
+        result[prefix] = title
+        last_level = level
 
     return result
 
