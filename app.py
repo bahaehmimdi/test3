@@ -219,6 +219,7 @@ def get_html(url):
 @app.route('/<path:subpath>')
 def tasktest(subpath):
  try:   
+  print("-1-")   
   return get_html_text(request.url.replace(r"https://test2-bblm.onrender.com/",""))
  except Exception as me:
   return str(me)   
