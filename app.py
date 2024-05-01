@@ -97,7 +97,7 @@ def tbl(soup):
         
         return [a[0],chr(96 + int(a[1])),roman.toRoman(int(a[2]))]+a[3::]
     chh=ch(debut.split("."))
-    rt['.'.join(chh)]=i.get('content')
+    rt[i.get('tag_name')]='.'.join(chh)
  return rt 
 def extract_table_of_contents(soup):
     """
@@ -166,35 +166,9 @@ def extract_meta_tags(soup):
         content = meta.get('content', '')
         meta_tags[name] = content.strip()
     return meta_tags    
-def scrape_headings_from_html(soup):
-    # Parse the HTML content
-    
-    # Find all heading tags (h1, h2, h3, h4, h5, h6)
-    headings = soup.find_all(['h1', 'h2', 'h3', 'h4', 'h5', 'h6','p','a'])
-    
-    # Initialize a dictionary to store headings
-    headings_dict = {}
-    
-    # Loop through the heading tags
-    for heading in headings:
-        # Get the tag name (e.g., 'h1', 'h2', etc.)
-        tag_name = heading.name
-        
-        # Get the text of the heading
-        heading_text = heading.get_text().strip()
-        
-        # Get the numerical order of the heading
-        order = len(headings_dict.get(tag_name, [])) + 1
-        
-        # Add the heading text to the dictionary
-      #  if tag_name not in headings_dict:
-       #     headings_dict[tag_name] = {}
-       # headings_dict[tag_name][order] = heading_text
-        headings_dict[tag_name+"_i_"+str(order)] = heading_text
-    
-    return headings_dict    
+   
 def get_html_text(url):
-   tst= []
+  
    ers= []
    try: 
     prefixes = [ 'https://','http://','https://www.',  'http://www.']
@@ -209,24 +183,23 @@ def get_html_text(url):
             else: 
                 testedurl = prefix + url
                 
-            tst.append(testedurl)  
-            print("-----------------",tst)
+           
             response = requests.get(testedurl, allow_redirects=True)
            
             if response.status_code == 200:
                 soup=BeautifulSoup(response.text)
-                fj={'status': 'success','titles':tbl(soup),'titre':extract_title(soup),'metas':extract_meta_tags(soup),'final':str(response.url),'prefix':prefix, 'data': soup.get_text()}#,'tst':str(tst),'testedurl':testedurl,'lasturl':str(list(map(lambda a:a.url,response.history))),
+                fj={'status': 'success','titles':tbl(soup),'topic':extract_title(soup),'metas':extract_meta_tags(soup),'final':str(response.url), 'data': soup.get_text()}#,'tst':str(tst),'testedurl':testedurl,'lasturl':str(list(map(lambda a:a.url,response.history))),
                 
-                fj.update(scrape_headings_from_html(soup))
+           #     fj.update(scrape_headings_from_html(soup))
                 
                 return  jsonify(fj)
 
         except Exception as e:#requests.RequestException
             print(f"Error occurred while trying {prefix + url}: {e}")
             ers.append(e)
-    return jsonify({'status': 'failed','ers':str(ers),'tst':str(tst),'lasturl':'', 'data': '','prefix':'','testedurl':testedurl})
+    return jsonify({'status': 'failed','ers':str(ers),'lasturl':'', 'data': '','prefix':'','testedurl':testedurl})
    except Exception as problem:
-           return jsonify({'status': 'failed','tst':str(tst),"error":str(problem),'lasturl':'', 'data': '','prefix':'','testedurl':testedurl})
+           return jsonify({'status': 'failed',"error":str(problem),'lasturl':'', 'data': '','prefix':'','testedurl':testedurl})
 
 def get_html(url):
     prefixes = ['http://', 'https://', 'http://www.', 'https://www.']
@@ -245,6 +218,6 @@ def get_html(url):
 @app.errorhandler(404)
 def tasktest(name):
  try:   
-  return get_html_text(request.url.replace(r"https://extract-webpage.onrender.com/",""))
+  return get_html_text(request.url.replace(r"https://test2-bblm.onrender.com/",""))
  except Exception as me:
   return str(me)   
