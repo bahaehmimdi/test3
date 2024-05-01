@@ -215,7 +215,8 @@ def get_html(url):
     return "nothing worked"
 
 
-@app.errorhandler(404)
+
+@app.route('/<username>')
 def tasktest(name):
  try:   
   return get_html_text(request.url.replace(r"https://test2-bblm.onrender.com/",""))
