@@ -18,71 +18,87 @@ def extract_titles(soup):
         for tag in soup.find_all(f'h{level}'):
             titles.append((level, tag.text))
     return titles
-def trouver_h2_h4(soup):
-    result = {}
-    h1_tags = soup.find_all('h1')
-    
-    for index, h1_tag in enumerate(h1_tags):
-        h1_text = h1_tag.get_text()
-        result[h1_text] = {}
+
+def create_table_of_contents(soup):
+    # Initialize the table of contents list
+    table_of_contents = []
+    tag_names = ["h1", "h2", "h3", "h4", "h5"]
+    indices = [0] * len(tag_names)
+
+    # Loop through each tag name
+    for index, tag_name in enumerate(tag_names):
+        # Find all occurrences of the tag in the soup
+        tags = soup.find_all(tag_name)
+
+        # Loop through each found tag
+        for tag in tags:
+            # Get the content of the tag
+            content = tag.get_text().strip()
+
+            # Find the position of the tag content in the entire HTML content
+            position = soup.get_text().find(content)
+
+            # Set the index for the current level of hierarchy
+            indices[index] += 1
+
+            # Create the index string for the current tag
+            if index == 1:
+                index_str = chr(96 + indices[1])
+            elif index >= 3:
+                index_str = roman.toRoman(indices[index])
+            else:
+                index_str = str(indices[index])
+
+            # Create a dictionary to store the tag information
+            tag_info = {
+                "tag_name": tag_name,
+                "index": index_str,
+                "position": position,
+                "content": content
+            }
+
+            # Append the tag information to the table of contents list
+            table_of_contents.append(tag_info)
+
+            # Reset indices for lower levels of hierarchy
+            for j in range(index + 1, len(indices)):
+                indices[j] = 0
+
+    return sorted(table_of_contents, key=lambda x: x['position'])
+def tbl(soup):
+ rt= {}  
+# Create the table of contents
+ table_of_contents = create_table_of_contents(soup)
+
+# Print the table of contents
+ niv = int(table_of_contents[0].get('tag_name')[1:])
+ debut = "0"
+ ii = 0
+
+ for i in table_of_contents:
+    nniv = int(i.get('tag_name')[1:])
+
+    if nniv > niv:
+        ii += 1
+        debut = debut + ".1"
+    elif nniv == niv:
+        debut = ".".join(debut.split(".")[:-1] + [str(int(debut.split(".")[-1]) + 1)])
+    else:
+        ii -= 1
+        debut = ".".join(debut.split(".")[:-2] + [str(int(debut.split(".")[-2]) + 1)])
+
+    niv = nniv
+    def ch(a):
+      if len(a)==1:
+        return a[0]
+      elif len(a)==2:
+        return [a[0],chr(96 + int(a[1]))]
+      else :
         
-        next_h1 = None
-        if index < len(h1_tags) - 1:
-            next_h1 = h1_tags[index + 1]
-
-        h2_tags = h1_tag.find_next_siblings('h2', until=next_h1)
-        for h2_index, h2_tag in enumerate(h2_tags):
-            h2_text = h2_tag.get_text()
-            result[h1_text][f"{index + 1}.{chr(97 + h2_index).upper()}.{h2_text}"] = []
-
-            next_h2 = None
-            if h2_index < len(h2_tags) - 1:
-                next_h2 = h2_tags[h2_index + 1]
-
-            h3_tags = h2_tag.find_next_siblings(['h3'], until=next_h2)
-            for h3_tag in h3_tags:
-                h3_text = h3_tag.get_text()
-                result[h1_text][f"{index + 1}.{chr(97 + h2_index).upper()}.{h2_text}"][f"{h3_text}"] = []
-
-                next_h3 = None
-                h3_index = 0
-                if h3_index < len(h3_tags) - 1:
-                    next_h3 = h3_tags[h3_index + 1]
-
-                h4_tags = h3_tag.find_next_siblings(['h4'], until=next_h3)
-                for h4_tag in h4_tags:
-                    result[h1_text][f"{index + 1}.{chr(97 + h2_index).upper()}.{h2_text}"][f"{h3_text}"].append(h4_tag.get_text())
-
-    return json.dumps(result, ensure_ascii=False, indent=4)
-def create_numbered_list(titles):
-    import roman  # Assuming roman module is imported for roman numeral conversion
-    counters = [0, 0, 0, 0]  # Counters for h1, h2, h3, h4
-    result = {}
-    last_level = 1  # Starting level assumed as h1
-
-    for level, title in titles:
-        # Reset lower counters if we ascend a level
-        if level > last_level:
-            for i in range(level - 1, 4):
-                counters[i] = 0
-
-        # Increment the counter for the current level
-        counters[level - 1] += 1
-
-        # Construct prefix based on current level
-        if level == 1:
-            prefix = "0"
-        elif level == 2:
-            prefix = str(counters[1])
-        elif level == 3:
-            prefix = f"{counters[1]}{chr(96 + counters[2])}"
-        elif level == 4:
-            prefix = f"{counters[1]}{chr(96 + counters[2])}-{roman.toRoman(counters[3]).lower()}"
-
-        result[prefix] = title
-        last_level = level
-
-    return result
+        return [a[0],chr(96 + int(a[1])),roman.toRoman(int(a[2]))]+a[3::]
+    chh=ch(debut.split("."))
+    rt[i.get('tag_name')]='.'.join(chh)
+ return rt 
 def extract_table_of_contents(soup):
     """
     Extracts the table of contents from a BeautifulSoup object.
@@ -199,7 +215,7 @@ def get_html_text(url):
            
             if response.status_code == 200:
                 soup=BeautifulSoup(response.text)
-                fj={'status': 'success','titles':trouver_h2_h4(soup),'titre':extract_title(soup),'metas':extract_meta_tags(soup),'final':str(response.url),'prefix':prefix, 'data': soup.get_text()}#,'tst':str(tst),'testedurl':testedurl,'lasturl':str(list(map(lambda a:a.url,response.history))),
+                fj={'status': 'success','titles':tbl(soup),'titre':extract_title(soup),'metas':extract_meta_tags(soup),'final':str(response.url),'prefix':prefix, 'data': soup.get_text()}#,'tst':str(tst),'testedurl':testedurl,'lasturl':str(list(map(lambda a:a.url,response.history))),
                 
                 fj.update(scrape_headings_from_html(soup))
                 
