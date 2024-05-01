@@ -97,7 +97,7 @@ def tbl(soup):
         
         return [a[0],chr(96 + int(a[1])),roman.toRoman(int(a[2]))]+a[3::]
     chh=ch(debut.split("."))
-    rt[i.get('tag_name')]='.'.join(chh)
+    rt['.'.join(chh)]=i.get('content')
  return rt 
 def extract_table_of_contents(soup):
     """
