@@ -22,7 +22,7 @@ def extract_titles(soup):
 def create_table_of_contents(soup):
     # Initialize the table of contents list
     table_of_contents = []
-    tag_names = ["h1", "h2", "h3", "h4", "h5"]
+    tag_names = ["h2", "h3", "h4", "h5","h6"]
     indices = [0] * len(tag_names)
 
     # Loop through each tag name
@@ -188,7 +188,7 @@ def get_html_text(url):
            
             if response.status_code == 200:
                 soup=BeautifulSoup(response.text)
-                fj={'status': 'success','titles':tbl(soup),'topic':extract_title(soup),'metas':extract_meta_tags(soup),'final':str(response.url), 'data': soup.get_text()}#,'tst':str(tst),'testedurl':testedurl,'lasturl':str(list(map(lambda a:a.url,response.history))),
+                fj={'status': 'success','h1':soup.find('h1').get_text().strip(),'titles':tbl(soup),'topic':extract_title(soup),'metas':extract_meta_tags(soup),'final':str(response.url), 'data': soup.get_text()}#,'tst':str(tst),'testedurl':testedurl,'lasturl':str(list(map(lambda a:a.url,response.history))),
                 
            #     fj.update(scrape_headings_from_html(soup))
                 
