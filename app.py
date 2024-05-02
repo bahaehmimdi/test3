@@ -191,7 +191,7 @@ def get_html_text(url):
            
             if response.status_code == 200:
                 soup=BeautifulSoup(response.text, features='html.parser')
-                fj={'status': 'success','h1':soup.find('h1').get_text().strip(),'titles':tbl(soup),'topic':extract_title(soup),'metas':extract_meta_tags(soup),'final':str(response.url), 'data': soup.get_text()}#,'tst':str(tst),'testedurl':testedurl,'lasturl':str(list(map(lambda a:a.url,response.history))),
+                fj={'status': 'success','h1':soup.find('h1').get_text().strip(),'titles':json.dumps(tbl(soup)),'topic':extract_title(soup),'metas':extract_meta_tags(soup),'final':str(response.url), 'data': soup.get_text()}#,'tst':str(tst),'testedurl':testedurl,'lasturl':str(list(map(lambda a:a.url,response.history))),
                 
            #     fj.update(scrape_headings_from_html(soup))
                 
