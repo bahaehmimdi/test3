@@ -6,6 +6,8 @@ import os
 import subprocess 
 from bs4 import BeautifulSoup
 import roman
+from collections import OrderedDict
+
 app = Flask(__name__)
 os.chdir("static")
 @app.route('/index')
@@ -97,7 +99,8 @@ def tbl(soup):
         
         return [a[0],chr(96 + int(a[1])),roman.toRoman(int(a[2]))]+a[3::]
     chh=ch(debut.split("."))
-    rt[i.get('position')]={"position":i.get('position'),"index":'.'.join(chh),"text":i.get('content')}
+   # rt[i.get('position')]={"position":i.get('position'),"index":'.'.join(chh),"text":i.get('content')}
+    rt['.'.join(chh)]=i.get('content')
  return rt 
 def extract_table_of_contents(soup):
     """
@@ -192,7 +195,7 @@ def get_html_text(url):
                 
            #     fj.update(scrape_headings_from_html(soup))
                 
-                return  jsonify(fj)
+                return  jsonify(OrderedDict(list(fj.items())))
 
         except Exception as e:#requests.RequestException
             print(f"Error occurred while trying {prefix + url}: {e}")
