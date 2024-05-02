@@ -68,7 +68,7 @@ def create_table_of_contents(soup):
 
     return sorted(table_of_contents, key=lambda x: x['position'])
 def tbl(soup):
- rt= {}  
+ rt= OrderedDict()  
 # Create the table of contents
  table_of_contents = create_table_of_contents(soup)
 
