@@ -263,7 +263,7 @@ def get_people_also_ask(query,location=None,language=None):
       except Exception as eror :
         err=err+"<br>"+str(eror) 
     
-    return questions,la,err
+    return list(set(questions)),la,err
 
 @app.route('/<path:subpath>')
 def tasktest(subpath):
