@@ -220,13 +220,18 @@ def get_html(url):
     
     return "nothing worked"
 
-def get_people_also_ask(query):
-    url = f"https://www.google.com/search?q={query}&hl=fr"
+def get_people_also_ask(query,location=None,language=None):
+    url = f"https://www.google.com/search"
     print(url)
+    params = {"q": query}
+    if location:
+        params["near"] = location
+    if language:
+        params["hl"] = language    
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"}
     
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=headers, params=params)
     soup = BeautifulSoup(response.text, 'html.parser')
     
     # Find the div containing the "People also ask" section
@@ -241,7 +246,7 @@ def get_people_also_ask(query):
 @app.route('/<path:subpath>')
 def tasktest(subpath):
  if request.args.get('paa') =="yes":
-     return json.dumps(dict(list(enumerate(get_people_also_ask(subpath)))), ensure_ascii=False), 200, {'Content-Type': 'application/json; charset=utf-8'}
+     return json.dumps(dict(list(enumerate(get_people_also_ask(subpath)))),location=request.args.get('location'),language=request.args.get('language'), ensure_ascii=False), 200, {'Content-Type': 'application/json; charset=utf-8'}
  else:    
   try:   
    print("-1-",subpath)   
