@@ -257,7 +257,7 @@ def get_people_also_ask(query,location=None,language=None):
     la=""
     for lk,lv in lgs.items():
       try:  
-       questions = [question.text for question in div_containing_text.parent.find_all('div',string=True)if question.text.strip() != lv]
+       questions.extend( [question.text for question in div_containing_text.parent.find_all('div',string=True)if question.text.strip() != lv])
        la=lk   
       except:
         pass  
