@@ -504,13 +504,15 @@ def get_people_also_ask(query,location=None,language=None):
       if lgl:  
         params["hl"] = lgl 
     if language:
-        params["hl"] = language    
+        params["hl"] = language   
+        
     if not params.get("hl"):
+      dq=detect(query)   
       params["hl"]=dq[0] 
       lts.insert(0,dq[1] )
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"}
-    dq=detect(query) 
+    
       
     response = requests.get(url, headers=headers, params=params)
     soup = BeautifulSoup(response.text, 'html.parser')
