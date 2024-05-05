@@ -21,7 +21,7 @@ def get_country_with_language(language_code):
 translator = Translator()
 def detect(text):
     
-    result = translator.detect(text)
+    result = translator.detect(text).lang
     
     return result,translator.translate("أسئلة أخرى", dest=result).text
 
