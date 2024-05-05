@@ -9,11 +9,20 @@ import roman
 from collections import OrderedDict
 import json
 from googletrans import Translator
+import pycountry
+
+import pycountry
+
+def get_country_with_language(language_code):
+    for country in pycountry.countries:
+        if language_code in country.languages:
+            return  country.alpha_2
+    return  None
 translator = Translator()
 def detect(text):
     
     result = translator.detect(text)
-    return result.lang
+    return get_country_with_language(result.lang)
 lgs1=[
     {"country_code": "af", "country_name": "Afghanistan", "autres_questions_translation": "Autres questions"},
     {"country_code": "al", "country_name": "Albania", "autres_questions_translation": "Pyetje të tjera"},
@@ -497,12 +506,8 @@ def get_people_also_ask(query,location=None,language=None):
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"}
     
-    
-    if not params.get("hl"):
-        response = requests.get(url, headers=headers)
-        params["hl"]=detect(query)
-    else:
-        response = requests.get(url, headers=headers, params=params)
+    params["hl"]=detect(query)    
+    response = requests.get(url, headers=headers, params=params)
     soup = BeautifulSoup(response.text, 'html.parser')
     
     # Find the div containing the "People also ask" section
