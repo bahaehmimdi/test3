@@ -262,9 +262,11 @@ lgs1=[
     {"country_code": "zw", "country_name": "Zimbabwe", "autres_questions_translation": "Zvinyorwa zvinyorwa"}
   ]
 lgs2={}
+lgs3={}
 translations=[]
 for i in lgs1:
     lgs2[i.get("country_name")]=i.get("country_code")
+    lgs3[i.get("country_code")]=i.get("autres_questions_translation")
     igt=i.get("autres_questions_translation")
     if igt not in translations:
         translations.append(igt)
@@ -500,16 +502,21 @@ def get_people_also_ask(query,location=None,language=None):
     soup = BeautifulSoup(response.text, 'html.parser')
     
     # Find the div containing the "People also ask" section
-    div_containing_text = soup.find('div', string='Autres questions')
+    
 #    print(div_containing_text.parent.text)
     # Extract the questions from the same div
     questions=[]
     la=""
     err=""
-    for tt in translations:
+   
+    lts=translations.copy()
+    lts.insert(0,lgs3.get(params["hl"]))
+    for tt in lts:
       try:  
+       div_containing_text = soup.find('div', string=tt)   
        qe= [question.text for question in div_containing_text.parent.find_all('div',string=True)if question.text.strip() != tt]   
        questions.extend(qe)  
+       break   
       except Exception as eror :
         err=err+"<br>"+str(eror) 
     
