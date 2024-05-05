@@ -8,6 +8,21 @@ from bs4 import BeautifulSoup
 import roman
 from collections import OrderedDict
 import json
+lgs={
+'French': 'Autres questions', # French
+'Spanish': 'Preguntas frecuentes', # Spanish
+'German': 'Ähnliche Fragen', # German
+'Italian': 'Domande frequenti', # Italian
+'Portuguese': 'Perguntas frequentes', # Portuguese
+'Dutch': 'Meer vragen', # Dutch
+'Russian': 'Другие вопросы', # Russian
+'Arabic': 'أسئلة أخرى', # Arabic
+'Japanese': 'その他の質問', # Japanese
+'Korean': '더 많은 질문', # Korean
+'Simplified Chinese': '更多问题', # Simplified Chinese
+'Traditional Chinese': '更多問題', # Traditional Chinese
+'Hindi': 'अन्य प्रश्न' # Hindi
+}
 app = Flask(__name__)
 os.chdir("static")
 @app.route('/index')
@@ -238,15 +253,23 @@ def get_people_also_ask(query,location=None,language=None):
     div_containing_text = soup.find('div', string='Autres questions')
 #    print(div_containing_text.parent.text)
     # Extract the questions from the same div
-    questions = [question.text for question in div_containing_text.parent.find_all('div',string=True)if question.text.strip() != "Autres questions"]
+    questions=[]
+    lk=""
+    for lk,lv in lgs.items():
+      try:  
+       questions = [question.text for question in div_containing_text.parent.find_all('div',string=True)if question.text.strip() != "Autres questions"]
+      except:
+        pass  
     
-    
-    return questions
+    return questions,lk
 
 @app.route('/<path:subpath>')
 def tasktest(subpath):
  if request.args.get('paa') =="yes":
-     return json.dumps(dict(list(enumerate(get_people_also_ask(subpath)))),location=request.args.get('location'),language=request.args.get('language'), ensure_ascii=False), 200, {'Content-Type': 'application/json; charset=utf-8'}
+     qr,lr=get_people_also_ask(subpath,location=request.args.get('location'),language=request.args.get('language'))
+     
+             
+     return json.dumps({"language":lr,"paa":dict(list(enumerate(qr))}), ensure_ascii=False), 200, {'Content-Type': 'application/json; charset=utf-8'}
  else:    
   try:   
    print("-1-",subpath)   
