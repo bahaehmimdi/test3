@@ -16,7 +16,7 @@ import pycountry
 def get_country_with_language(language_code):
     for country in pycountry.countries:
         if language_code in country.languages:
-            return  country.alpha_2
+            return  country.alpha_2.lower()
     return  None
 translator = Translator()
 def detect(text):
