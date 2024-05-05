@@ -6,3 +6,4 @@ pandas
 openpyxl
 beautifulsoup4
 roman
+langdetect
