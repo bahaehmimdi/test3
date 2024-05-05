@@ -255,22 +255,23 @@ def get_people_also_ask(query,location=None,language=None):
     # Extract the questions from the same div
     questions=[]
     la=""
+    err=""
     for lk,lv in lgs.items():
       try:  
        questions.extend( [question.text for question in div_containing_text.parent.find_all('div',string=True)if question.text.strip() != lv])
        la=lk   
-      except:
-        pass  
+      except Exception as eror :
+        err=err+"<br>"+str(eror) 
     
-    return questions,la
+    return questions,la,err
 
 @app.route('/<path:subpath>')
 def tasktest(subpath):
  if request.args.get('paa') =="yes":
-     qr,lr=get_people_also_ask(subpath,location=request.args.get('location'),language=request.args.get('language'))
+     qr,lr,errr=get_people_also_ask(subpath,location=request.args.get('location'),language=request.args.get('language'))
      
              
-     return json.dumps({"language":lr,"paa":dict(list(enumerate(qr)))}, ensure_ascii=False), 200, {'Content-Type': 'application/json; charset=utf-8'}
+     return json.dumps({"language":lr,"err":str(errr),"paa":dict(list(enumerate(qr)))}, ensure_ascii=False), 200, {'Content-Type': 'application/json; charset=utf-8'}
  else:    
   try:   
    print("-1-",subpath)   
