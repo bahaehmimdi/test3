@@ -8,7 +8,12 @@ from bs4 import BeautifulSoup
 import roman
 from collections import OrderedDict
 import json
-from langdetect import detect
+from googletrans import Translator
+translator = Translator()
+def detect(text):
+    
+    result = translator.detect(text)
+    return result.lang
 lgs1=[
     {"country_code": "af", "country_name": "Afghanistan", "autres_questions_translation": "Autres questions"},
     {"country_code": "al", "country_name": "Albania", "autres_questions_translation": "Pyetje të tjera"},
