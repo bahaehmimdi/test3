@@ -220,12 +220,31 @@ def get_html(url):
     
     return "nothing worked"
 
-
+def get_people_also_ask(query):
+    url = f"https://www.google.com/search?q={query}&hl=fr"
+    print(url)
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"}
+    
+    response = requests.get(url, headers=headers)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    
+    # Find the div containing the "People also ask" section
+    div_containing_text = soup.find('div', string='Autres questions')
+#    print(div_containing_text.parent.text)
+    # Extract the questions from the same div
+    questions = [question.text for question in div_containing_text.parent.find_all('div',string=True)if question.text.strip() != "Autres questions"]
+    
+    
+    return questions
 
 @app.route('/<path:subpath>')
 def tasktest(subpath):
- try:   
-  print("-1-",subpath)   
-  return get_html_text(subpath)
- except Exception as me:
-  return str(me)   
+ if request.args.get('paa') =="yes":
+     return jsonify(dict(list(enumerate(get_people_also_ask(subpath)))))
+ else:    
+  try:   
+   print("-1-",subpath)   
+   return get_html_text(subpath)
+  except Exception as me:
+   return str(me)   
