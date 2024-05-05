@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup
 import roman
 from collections import OrderedDict
 import json
+from langdetect import detect
 lgs1=[
     {"country_code": "af", "country_name": "Afghanistan", "autres_questions_translation": "Autres questions"},
     {"country_code": "al", "country_name": "Albania", "autres_questions_translation": "Pyetje të tjera"},
@@ -485,6 +486,8 @@ def get_people_also_ask(query,location=None,language=None):
         params["hl"] = lgl 
     if language:
         params["hl"] = language    
+    if not params.get("hl"):
+        params["hl"]=langdetect(query)
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"}
     
