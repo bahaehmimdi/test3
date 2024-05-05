@@ -505,7 +505,7 @@ def get_people_also_ask(query,location=None,language=None):
         params["hl"] = lgl 
     if language:
         params["hl"] = language    
-    if not params.get("hl")
+    if not params.get("hl"):
       params["hl"]=dq[0] 
       lts.insert(0,dq[1] )
     headers = {
