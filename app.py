@@ -487,7 +487,7 @@ def get_people_also_ask(query,location=None,language=None):
     if language:
         params["hl"] = language    
     if not params.get("hl"):
-        params["hl"]=langdetect(query)
+        params["hl"]=detect(query)
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"}
     
