@@ -258,8 +258,10 @@ def get_people_also_ask(query,location=None,language=None):
     err=""
     for lk,lv in lgs.items():
       try:  
-       questions.extend( [question.text for question in div_containing_text.parent.find_all('div',string=True)if question.text.strip() != lv])
-       la=lk   
+       qe= [question.text for question in div_containing_text.parent.find_all('div',string=True)if question.text.strip() != lv]   
+       questions.extend(qe)
+       if len(qe)>0:   
+        la=lk   
       except Exception as eror :
         err=err+"<br>"+str(eror) 
     
