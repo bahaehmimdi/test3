@@ -16,13 +16,13 @@ import pycountry
 def get_country_with_language(language_code):
     for country in pycountry.countries:
         if language_code in country.languages:
-            return  country.alpha_2.lower()
-    return  None
+            return country.name
+    return None
 translator = Translator()
 def detect(text):
     
     result = translator.detect(text)
-    return get_country_with_language(result.lang)
+    return get_country_with_language(result.lang[:2])
 lgs1=[
     {"country_code": "af", "country_name": "Afghanistan", "autres_questions_translation": "Autres questions"},
     {"country_code": "al", "country_name": "Albania", "autres_questions_translation": "Pyetje të tjera"},
