@@ -260,8 +260,9 @@ def get_people_also_ask(query,location=None,language=None):
       try:  
        qe= [question.text for question in div_containing_text.parent.find_all('div',string=True)if question.text.strip() != lv]   
        questions.extend(qe)
-       if len(qe)>0:   
-        la=lk   
+       if len(qe)>0and la=="":   
+        la=lk  
+        break   
       except Exception as eror :
         err=err+"<br>"+str(eror) 
     
