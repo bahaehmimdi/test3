@@ -508,15 +508,15 @@ def get_people_also_ask(query,location=None,language=None):
       except Exception as eror :
         err=err+"<br>"+str(eror) 
     
-    return list(set(questions)),la,err
+    return list(set(questions)),la,err,params
 
 @app.route('/<path:subpath>')
 def tasktest(subpath):
  if request.args.get('paa') =="yes":
-     qr,lr,errr=get_people_also_ask(subpath,location=request.args.get('location'),language=request.args.get('language'))
+     qr,lr,errr,p=get_people_also_ask(subpath,location=request.args.get('location'),language=request.args.get('language'))
      
              
-     return json.dumps({"paa":dict(list(enumerate(qr)))}, ensure_ascii=False), 200, {'Content-Type': 'application/json; charset=utf-8'}#"err":str(errr),
+     return json.dumps({"err":str(errr),'params':p,"paa":dict(list(enumerate(qr)))}, ensure_ascii=False), 200, {'Content-Type': 'application/json; charset=utf-8'}#
  else:    
   try:   
    print("-1-",subpath)   
