@@ -241,7 +241,7 @@ def get_people_also_ask(query):
 @app.route('/<path:subpath>')
 def tasktest(subpath):
  if request.args.get('paa') =="yes":
-     return jsonify(dict(list(enumerate(get_people_also_ask(subpath)))))
+     return jsonify(dict(list(enumerate(get_people_also_ask(subpath))))), 200, {'Content-Type': 'application/json; charset=utf-8'}
  else:    
   try:   
    print("-1-",subpath)   
