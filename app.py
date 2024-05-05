@@ -269,7 +269,7 @@ def tasktest(subpath):
      qr,lr=get_people_also_ask(subpath,location=request.args.get('location'),language=request.args.get('language'))
      
              
-     return json.dumps({"language":lr,"paa":dict(list(enumerate(qr))}), ensure_ascii=False), 200, {'Content-Type': 'application/json; charset=utf-8'}
+     return json.dumps({"language":lr,"paa":dict(list(enumerate(qr)))}, ensure_ascii=False), 200, {'Content-Type': 'application/json; charset=utf-8'}
  else:    
   try:   
    print("-1-",subpath)   
