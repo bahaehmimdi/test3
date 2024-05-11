@@ -239,3 +239,5 @@ def tasktest(subpath):
    return get_html_text(subpath)
   except Exception as me:
    return str(me)   
+if __name__ == "__main__":
+    app.run()
