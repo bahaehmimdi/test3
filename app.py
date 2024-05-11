@@ -390,9 +390,10 @@ def extract_table_of_contents(soup):
     table_of_contents = {}
     current_level = table_of_contents
     
-    headings = soup.find_all(['h1', 'h2', 'h3', 'h4', 'h5'])
+    headings = soup.find_all(['h1', 'h2', 'h3', 'h4', 'h5','h6'])
     
     for heading in headings:
+      try:  
         tag_name = heading.name
         title = heading.get_text().strip()
         level = int(tag_name[1])  # Extract the level from the tag name (e.g., 'h1' -> level 1)
@@ -408,7 +409,9 @@ def extract_table_of_contents(soup):
             # Ensure the parent level exists before accessing it
             if parent_level in current_level:
                 current_level = current_level[parent_level]['subheadings']
-    
+      except Exception as eror:
+        ers.append(eror)  
+        break  
     return table_of_contents 
 def extract_title(soup):
     """
