@@ -352,6 +352,7 @@ def tbl(soup):
  ii = 0
 
  for i in table_of_contents:
+   try:  
     nniv = int(i.get('tag_name')[1:])
 
     if nniv > niv:
@@ -375,6 +376,9 @@ def tbl(soup):
     chh=ch(debut.split("."))
    # rt[i.get('position')]={"position":i.get('position'),"index":'.'.join(chh),"text":i.get('content')}
     rt['.'.join(chh)]=i.get('content')
+   except Exception as eror:
+       ers.append("tbl "+str(eror))
+       break
  return rt 
 def extract_table_of_contents(soup):
     """
