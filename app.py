@@ -390,7 +390,7 @@ def extract_table_of_contents(soup):
     table_of_contents = {}
     current_level = table_of_contents
     
-    headings = soup.find_all(['h1', 'h2', 'h3', 'h4', 'h5', 'h6'])
+    headings = soup.find_all(['h1', 'h2', 'h3', 'h4', 'h5'])
     
     for heading in headings:
         tag_name = heading.name
