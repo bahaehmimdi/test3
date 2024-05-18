@@ -221,14 +221,16 @@ def get_html_text(url):
                 
            else: 
                 testedurl = prefix + url
+          
+           response = requests.get(testedurl, allow_redirects=True) 
            try:
                 driver.quit()
                 time.sleep(3)
            except:
                pass
            driver = webdriver.Chrome(options=chrome_options)
-           # response = requests.get(testedurl, allow_redirects=True)
-           driver.get(testedurl)
+           
+           driver.get(response.url)
 
            # Wait until all content is loaded (you can customize the timeout)
            wait = WebDriverWait(driver, 10)  # Wait up to 10 seconds
