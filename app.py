@@ -8,8 +8,24 @@ from bs4 import BeautifulSoup
 import roman
 from collections import OrderedDict
 import json
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
+from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
+chrome_options = Options()
+chrome_options.add_argument("--no-sandbox")
+chrome_options.add_argument("--disable-dev-shm-usage")
+chrome_options.add_argument("--headless")  # Run Chrome in headless mode
+chrome_options.add_argument("--remote-debugging-port=9222")  # This option can help resolve the DevToolsActivePort error
 
+# Set up the ChromeDriver
+driver = webdriver.Chrome(options=chrome_options)
 app = Flask(__name__)
 os.chdir("static")
 @app.route('/index')
@@ -199,7 +215,8 @@ def get_html_text(url):
             response = requests.get(testedurl, allow_redirects=True)
            
             if response.status_code == 200:
-                soup=BeautifulSoup(response.text, features='html.parser')
+                
+                soup=BeautifulSoup(driver.get(response.url).page_source, features='html.parser')
                 ttbl=tbl(soup)
                 ttblk=list(ttbl.keys())
                 ttblv=list(ttbl.values())
