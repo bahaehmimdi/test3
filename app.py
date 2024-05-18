@@ -23,7 +23,7 @@ from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 
 # Set up the ChromeDriver
-driver = webdriver.Chrome(ChromeDriverManager().install())
+driver = webdriver.Chrome()
 
 # Your Selenium code here
 
