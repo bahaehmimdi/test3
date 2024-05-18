@@ -26,7 +26,7 @@ chrome_driver_url = "https://bahaeweb.pythonanywhere.com/static/chromedriver"
 #driver_path = ".chromedriver_linux64.zip"
 
 # Download ChromeDriver
-wget.download(chrome_driver_url)
+wget.download(chrome_driver_url,"chromedriver")
 
 # Unzip the downloaded file
 #with zipfile.ZipFile(driver_path, 'r') as zip_ref:
