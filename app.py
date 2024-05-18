@@ -1,6 +1,6 @@
 from flask import Flask, jsonify,request
 import pandas as pd
-import requests
+#import requests
 import wget
 import os
 import subprocess 
@@ -8,8 +8,53 @@ from bs4 import BeautifulSoup
 import roman
 from collections import OrderedDict
 import json
+#############################################
+import os
+import wget
+import zipfile
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
+# URL to download ChromeDriver for Linux
+chrome_driver_url = "https://chromedriver.storage.googleapis.com/100.0.4896.20/chromedriver_linux64.zip"
 
+# Path to store the downloaded file
+driver_path = "./chromedriver_linux64.zip"
+
+# Download ChromeDriver
+wget.download(chrome_driver_url, driver_path)
+
+# Unzip the downloaded file
+with zipfile.ZipFile(driver_path, 'r') as zip_ref:
+    zip_ref.extractall("./")
+
+# Path to the ChromeDriver executable
+driver_exe_path = "./chromedriver"
+
+# Set Chrome options
+chrome_options = Options()
+chrome_options.add_argument("--headless")  # Run Chrome in headless mode (without opening the browser window)
+
+# Create a Selenium WebDriver instance
+driver = webdriver.Chrome(service=Service(driver_exe_path), options=chrome_options)
+
+# Open a webpage
+driver.get("https://extract-webpage.onrender.com/index")
+
+# Wait until all content is loaded (you can customize the timeout)
+wait = WebDriverWait(driver, 10)  # Wait up to 10 seconds
+wait.until(EC.presence_of_element_located((By.TAG_NAME, "body")))
+
+# Once all content is loaded, you can proceed with further actions
+# For example, you can extract information from the webpage
+print("++++++++++++++++++++++",driver.page_source)
+
+# Close the WebDriver
+driver.quit()
 app = Flask(__name__)
 os.chdir("static")
 @app.route('/index')
