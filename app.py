@@ -233,8 +233,8 @@ def get_html_text(url):
            driver.get(response.url)
 
            # Wait until all content is loaded (you can customize the timeout)
-           wait = WebDriverWait(driver, 10)  # Wait up to 10 seconds
-           wait.until(EC.presence_of_element_located((By.TAG_NAME, "body")))
+           wait = WebDriverWait(driver, 2)  # Wait up to 10 seconds
+         #  wait.until(EC.presence_of_element_located((By.TAG_NAME, "body")))
 
            # Once all content is loaded, you can proceed with further actions
            # For example, you can extract information from the webpage
