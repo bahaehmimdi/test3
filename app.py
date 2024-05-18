@@ -215,8 +215,8 @@ def get_html_text(url):
             response = requests.get(testedurl, allow_redirects=True)
            
             if response.status_code == 200:
-                
-                soup=BeautifulSoup(driver.get(response.url).page_source, features='html.parser')
+                driver.get(response.url)
+                soup=BeautifulSoup(driver.page_source, features='html.parser')
                 ttbl=tbl(soup)
                 ttblk=list(ttbl.keys())
                 ttblv=list(ttbl.values())
