@@ -235,8 +235,8 @@ def get_html_text(url):
          #  print("++++++++++++++++++++++",)
 
 # Close the WebDriver
-            driver.quit()
-            if True == 200:
+           driver.quit()
+           if True == 200:
                 soup=BeautifulSoup(driver.page_source, features='html.parser')
                 ttbl=tbl(soup)
                 ttblk=list(ttbl.keys())
