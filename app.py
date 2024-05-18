@@ -1,6 +1,6 @@
 from flask import Flask, jsonify,request
 import pandas as pd
-#import requests
+import requests
 import wget
 import os
 import subprocess 
