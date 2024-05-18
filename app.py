@@ -19,30 +19,13 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-# URL to download ChromeDriver for Linux
-chrome_driver_url = "https://bahaeweb.pythonanywhere.com/static/chromedriver"
+from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
 
-# Path to store the downloaded file
-driver_path = "chromedriver"
+# Set up the ChromeDriver
+driver = webdriver.Chrome(ChromeDriverManager().install())
 
-# Download ChromeDriver
-#wget.download(chrome_driver_url,"chromedriver")
-
-# Unzip the downloaded file
-#with zipfile.ZipFile(driver_path, 'r') as zip_ref:
-#    zip_ref.extractall("./")
-
-# Path to the ChromeDriver executable
-driver_exe_path = "chromedriver"
-print("+++++",os.listdir(),os.listdir("static"))
-import os
-os.chmod(driver_exe_path, 0o755)
-# Set Chrome options
-chrome_options = Options()
-chrome_options.add_argument("--headless")  # Run Chrome in headless mode (without opening the browser window)
-
-# Create a Selenium WebDriver instance
-driver = webdriver.Chrome(service=Service(driver_exe_path), options=chrome_options)
+# Your Selenium code here
 
 # Open a webpage
 driver.get("https://extract-webpage.onrender.com/index")
