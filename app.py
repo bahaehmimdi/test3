@@ -221,8 +221,11 @@ def get_html_text(url):
                 
            else: 
                 testedurl = prefix + url
-                
-           
+           try:
+                driver.quit()
+           except:
+               pass
+           driver = webdriver.Chrome(options=chrome_options)
            # response = requests.get(testedurl, allow_redirects=True)
            driver.get(testedurl)
 
