@@ -20,21 +20,21 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 # URL to download ChromeDriver for Linux
-chrome_driver_url = "https://chromedriver.storage.googleapis.com/100.0.4896.20/chromedriver_linux64.zip"
+chrome_driver_url = "https://bahaeweb.pythonanywhere.com/static/chromedriver"
 
 # Path to store the downloaded file
 #driver_path = ".chromedriver_linux64.zip"
 
 # Download ChromeDriver
-#wget.download(chrome_driver_url, driver_path)
+wget.download(chrome_driver_url)
 
 # Unzip the downloaded file
 #with zipfile.ZipFile(driver_path, 'r') as zip_ref:
 #    zip_ref.extractall("./")
 
 # Path to the ChromeDriver executable
-driver_exe_path = "static/chromedriver"
-print(os.listdir("static"))
+#driver_exe_path = "static/chromedriver"
+print("+++++",os.listdir())
 import os
 os.chmod(driver_exe_path, 0o755)
 # Set Chrome options
