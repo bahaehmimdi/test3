@@ -224,7 +224,7 @@ def get_html_text(url):
                 
            
            # response = requests.get(testedurl, allow_redirects=True)
-           driver.get("https://extract-webpage.onrender.com/index")
+           driver.get(testedurl)
 
            # Wait until all content is loaded (you can customize the timeout)
            wait = WebDriverWait(driver, 10)  # Wait up to 10 seconds
@@ -241,7 +241,7 @@ def get_html_text(url):
                 ttbl=tbl(soup)
                 ttblk=list(ttbl.keys())
                 ttblv=list(ttbl.values())
-                fj={'status': 'success','h1':soup.find('h1').get_text().strip(),'titles':{"Paragraphe":ttblk,"numrows":len(ttblk),"Title":ttblv,"rows":list(range(2,len(ttblv)+2))},'topic':extract_title(soup),'metas':extract_meta_tags(soup),'final':str(response.url), 'data': soup.get_text()}#,'tst':str(tst),'testedurl':testedurl,'lasturl':str(list(map(lambda a:a.url,response.history))),
+                fj={'status': 'success','h1':soup.find('h1').get_text().strip(),'titles':{"Paragraphe":ttblk,"numrows":len(ttblk),"Title":ttblv,"rows":list(range(2,len(ttblv)+2))},'topic':extract_title(soup),'metas':extract_meta_tags(soup),'final':str(driver.current_url ), 'data': soup.get_text()}#,'tst':str(tst),'testedurl':testedurl,
                 
            #     fj.update(scrape_headings_from_html(soup))
                 
