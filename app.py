@@ -23,19 +23,19 @@ from selenium.webdriver.support import expected_conditions as EC
 chrome_driver_url = "https://chromedriver.storage.googleapis.com/100.0.4896.20/chromedriver_linux64.zip"
 
 # Path to store the downloaded file
-driver_path = "./chromedriver_linux64.zip"
+#driver_path = ".chromedriver_linux64.zip"
 
 # Download ChromeDriver
-wget.download(chrome_driver_url, driver_path)
+#wget.download(chrome_driver_url, driver_path)
 
 # Unzip the downloaded file
-with zipfile.ZipFile(driver_path, 'r') as zip_ref:
-    zip_ref.extractall("./")
+#with zipfile.ZipFile(driver_path, 'r') as zip_ref:
+#    zip_ref.extractall("./")
 
 # Path to the ChromeDriver executable
-driver_exe_path = "./chromedriver"
-import os
-os.chmod(driver_exe_path, 0o755)
+driver_exe_path = "chromedriver"
+#import os
+#os.chmod(driver_exe_path, 0o755)
 # Set Chrome options
 chrome_options = Options()
 chrome_options.add_argument("--headless")  # Run Chrome in headless mode (without opening the browser window)
