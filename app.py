@@ -34,7 +34,8 @@ with zipfile.ZipFile(driver_path, 'r') as zip_ref:
 
 # Path to the ChromeDriver executable
 driver_exe_path = "./chromedriver"
-
+import os
+os.chmod(driver_exe_path, 0o755)
 # Set Chrome options
 chrome_options = Options()
 chrome_options.add_argument("--headless")  # Run Chrome in headless mode (without opening the browser window)
