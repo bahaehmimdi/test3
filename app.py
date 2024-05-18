@@ -216,10 +216,10 @@ def get_html_text(url):
     for prefix in prefixes:
         
         try:
-            if "//" in url :
+           if "//" in url :
                 testedurl= url
                 
-            else: 
+           else: 
                 testedurl = prefix + url
                 
            
