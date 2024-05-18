@@ -23,7 +23,7 @@ from selenium.webdriver.support import expected_conditions as EC
 chrome_driver_url = "https://bahaeweb.pythonanywhere.com/static/chromedriver"
 
 # Path to store the downloaded file
-#driver_path = ".chromedriver_linux64.zip"
+driver_path = "chromedriver"
 
 # Download ChromeDriver
 #wget.download(chrome_driver_url,"chromedriver")
@@ -33,7 +33,7 @@ chrome_driver_url = "https://bahaeweb.pythonanywhere.com/static/chromedriver"
 #    zip_ref.extractall("./")
 
 # Path to the ChromeDriver executable
-#driver_exe_path = "static/chromedriver"
+driver_exe_path = "chromedriver"
 print("+++++",os.listdir(),os.listdir("static"))
 import os
 os.chmod(driver_exe_path, 0o755)
@@ -287,4 +287,5 @@ def tasktest(subpath):
   except Exception as me:
    return str(me)   
 if __name__ == "__main__":
+    print("+++++",os.listdir(),os.listdir("static"))
     app.run()
