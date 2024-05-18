@@ -34,6 +34,7 @@ chrome_driver_url = "https://chromedriver.storage.googleapis.com/100.0.4896.20/c
 
 # Path to the ChromeDriver executable
 driver_exe_path = "static/chromedriver"
+print(os.listdir("static"))
 #import os
 #os.chmod(driver_exe_path, 0o755)
 # Set Chrome options
