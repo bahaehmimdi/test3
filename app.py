@@ -8,34 +8,7 @@ from bs4 import BeautifulSoup
 import roman
 from collections import OrderedDict
 import json
-#############################################
-import os
-import wget
-import zipfile
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
-from selenium import webdriver
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.options import Options
-import time
-# Set up Chrome options
-chrome_options = Options()
-chrome_options.add_argument("--no-sandbox")
-chrome_options.add_argument("--disable-dev-shm-usage")
-chrome_options.add_argument("--headless")  # Run Chrome in headless mode
-chrome_options.add_argument("--remote-debugging-port=9222")  # This option can help resolve the DevToolsActivePort error
-
-# Set up the ChromeDriver
-driver = webdriver.Chrome(options=chrome_options)
-
-# Your Selenium code here
-
-# Open a webpage
 
 app = Flask(__name__)
 os.chdir("static")
@@ -216,38 +189,21 @@ def get_html_text(url):
     for prefix in prefixes:
         
         try:
-           if "//" in url :
+            if "//" in url :
                 testedurl= url
                 
-           else: 
+            else: 
                 testedurl = prefix + url
-          
-           response = requests.get(testedurl, allow_redirects=True) 
-        #   try:
-         #       driver.quit()
-          #      time.sleep(3)
-          # except:
-           #    pass
-           driver = webdriver.Chrome(options=chrome_options)
+                
            
-           driver.get(response.url)
-
-           # Wait until all content is loaded (you can customize the timeout)
-           wait = WebDriverWait(driver, 2)  # Wait up to 10 seconds
-         #  wait.until(EC.presence_of_element_located((By.TAG_NAME, "body")))
-
-           # Once all content is loaded, you can proceed with further actions
-           # For example, you can extract information from the webpage
-         #  print("++++++++++++++++++++++",)
-
-# Close the WebDriver
-      #     driver.quit()
-           if True == 200:
-                soup=BeautifulSoup(driver.page_source, features='html.parser')
+            response = requests.get(testedurl, allow_redirects=True)
+           
+            if response.status_code == 200:
+                soup=BeautifulSoup(response.text, features='html.parser')
                 ttbl=tbl(soup)
                 ttblk=list(ttbl.keys())
                 ttblv=list(ttbl.values())
-                fj={'status': 'success','h1':soup.find('h1').get_text().strip(),'titles':{"Paragraphe":ttblk,"numrows":len(ttblk),"Title":ttblv,"rows":list(range(2,len(ttblv)+2))},'topic':extract_title(soup),'metas':extract_meta_tags(soup),'final':str(driver.current_url ), 'data': soup.get_text()}#,'tst':str(tst),'testedurl':testedurl,
+                fj={'status': 'success','h1':soup.find('h1').get_text().strip(),'titles':{"Paragraphe":ttblk,"numrows":len(ttblk),"Title":ttblv,"rows":list(range(2,len(ttblv)+2))},'topic':extract_title(soup),'metas':extract_meta_tags(soup),'final':str(response.url), 'data': soup.get_text()}#,'tst':str(tst),'testedurl':testedurl,'lasturl':str(list(map(lambda a:a.url,response.history))),
                 
            #     fj.update(scrape_headings_from_html(soup))
                 
@@ -284,5 +240,4 @@ def tasktest(subpath):
   except Exception as me:
    return str(me)   
 if __name__ == "__main__":
-    print("+++++",os.listdir(),os.listdir("static"))
     app.run()
