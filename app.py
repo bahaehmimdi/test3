@@ -22,7 +22,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
-
+import time
 # Set up Chrome options
 chrome_options = Options()
 chrome_options.add_argument("--no-sandbox")
@@ -223,6 +223,7 @@ def get_html_text(url):
                 testedurl = prefix + url
            try:
                 driver.quit()
+                time.sleep(3)
            except:
                pass
            driver = webdriver.Chrome(options=chrome_options)
