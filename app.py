@@ -21,9 +21,17 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
+
+# Set up Chrome options
+chrome_options = Options()
+chrome_options.add_argument("--no-sandbox")
+chrome_options.add_argument("--disable-dev-shm-usage")
+chrome_options.add_argument("--headless")  # Run Chrome in headless mode
+chrome_options.add_argument("--remote-debugging-port=9222")  # This option can help resolve the DevToolsActivePort error
 
 # Set up the ChromeDriver
-driver = webdriver.Chrome()
+driver = webdriver.Chrome(options=chrome_options)
 
 # Your Selenium code here
 
