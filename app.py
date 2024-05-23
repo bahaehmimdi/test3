@@ -216,9 +216,14 @@ def get_html_text(url):
            
             if response.status_code == 200:
                 driver.get(response.url)
-                wait = WebDriverWait(driver, 2)  # Wait up to 10 seconds
-                wait.until(EC.presence_of_element_located((By.TAG_NAME, "body")))
-                soup=BeautifulSoup(driver.page_source, features='html.parser')
+                time.sleep(2)
+             @   wait = WebDriverWait(driver, 2)  # Wait up to 10 seconds
+              #  wait.until(EC.presence_of_element_located((By.TAG_NAME, "body")))
+                try:
+                 soup=BeautifulSoup(driver.page_source, features='html.parser')
+                except:
+                 soup=BeautifulSoup(response.text, features='html.parser')   
+                    
                 ttbl=tbl(soup)
                 ttblk=list(ttbl.keys())
                 ttblv=list(ttbl.values())
