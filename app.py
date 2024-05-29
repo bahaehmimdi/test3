@@ -288,7 +288,7 @@ def google_search(query):
                 snippet = snippet.text
             first_result = {'title': title, 'link': link, 'snippet': snippet}
     
-    return g.text.solit("(")[0]
+    return g.text.split("(")[0]
 @app.route('/<path:subpath>')
 def tasktest(subpath):
   if subpath.isnumeric():
