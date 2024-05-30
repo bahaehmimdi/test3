@@ -289,10 +289,14 @@ def google_search(query):
             first_result = {'title': title, 'link': link, 'snippet': snippet}
     
     return g.text.split("(")[0]
+@app.route('/deno/<bahae>')
+def scrap(bahae):
+ 
+      return google_search(bahae)
+
 @app.route('/<path:subpath>')
 def tasktest(subpath):
-  if subpath.isnumeric():
-      return google_search(subpath)
+
   try:   
    print("-1-",subpath)   
    return get_html_text(subpath)
