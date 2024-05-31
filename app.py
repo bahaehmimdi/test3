@@ -200,7 +200,7 @@ def get_html_text(url):
    ers= []
    try: 
     prefixes = [ 'https://','http://','https://www.',  'http://www.']
-    if "//" in url :   
+    if "://" in url :   
         prefixes=['']
     for prefix in prefixes:
         
