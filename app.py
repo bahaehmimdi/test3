@@ -212,9 +212,9 @@ def get_html_text(url):
                 testedurl = prefix + url
                 
            
-            response = requests.get(testedurl, allow_redirects=True)
+           # response = requests.get(testedurl, allow_redirects=True)
            
-            if response.status_code == 200:
+            if True#response.status_code == 200:
                 driver.get(response.url)
                 time.sleep(2)
               #  wait = WebDriverWait(driver, 2)  # Wait up to 10 seconds
@@ -223,11 +223,11 @@ def get_html_text(url):
                  soup=BeautifulSoup(driver.page_source, features='html.parser')
                 except:
                  soup=BeautifulSoup(response.text, features='html.parser')   
-                    
+                fu=driver.getCurrentUrl()    
                 ttbl=tbl(soup)
                 ttblk=list(ttbl.keys())
                 ttblv=list(ttbl.values())
-                fj={'status': 'success','h1':soup.find('h1').get_text().strip(),'titles':{"Paragraphe":ttblk,"numrows":len(ttblk),"Title":ttblv,"rows":list(range(2,len(ttblv)+2))},'topic':extract_title(soup),'metas':extract_meta_tags(soup),'final':str(response.url), 'data': soup.get_text()}#,'tst':str(tst),'testedurl':testedurl,'lasturl':str(list(map(lambda a:a.url,response.history))),
+                fj={'status': 'success','h1':soup.find('h1').get_text().strip(),'titles':{"Paragraphe":ttblk,"numrows":len(ttblk),"Title":ttblv,"rows":list(range(2,len(ttblv)+2))},'topic':extract_title(soup),'metas':extract_meta_tags(soup),'final':fu, 'data': soup.get_text()}#,'tst':str(tst),'testedurl':testedurl,'lasturl':"",
                 
            #     fj.update(scrape_headings_from_html(soup))
                 
