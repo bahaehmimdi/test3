@@ -215,7 +215,7 @@ def get_html_text(url):
            # response = requests.get(testedurl, allow_redirects=True)
            
             if True:#response.status_code == 200:
-                driver.get(response.url)
+                driver.get(testedurl )
                 time.sleep(2)
               #  wait = WebDriverWait(driver, 2)  # Wait up to 10 seconds
               #  wait.until(EC.presence_of_element_located((By.TAG_NAME, "body")))
@@ -223,7 +223,7 @@ def get_html_text(url):
                  soup=BeautifulSoup(driver.page_source, features='html.parser')
                 except Exception as error:
                  print("drivererror ",error)   
-                 soup=BeautifulSoup(response.text, features='html.parser')   
+               #  soup=BeautifulSoup(response.text, features='html.parser')   
                 fu=driver.getCurrentUrl()    
                 ttbl=tbl(soup)
                 ttblk=list(ttbl.keys())
