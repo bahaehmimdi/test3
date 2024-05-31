@@ -221,7 +221,8 @@ def get_html_text(url):
               #  wait.until(EC.presence_of_element_located((By.TAG_NAME, "body")))
                 try:
                  soup=BeautifulSoup(driver.page_source, features='html.parser')
-                except:
+                except Exception as error:
+                 print("drivererror ",error)   
                  soup=BeautifulSoup(response.text, features='html.parser')   
                 fu=driver.getCurrentUrl()    
                 ttbl=tbl(soup)
