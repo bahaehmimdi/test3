@@ -224,7 +224,7 @@ def get_html_text(url):
                 except Exception as error:
                  print("drivererror ",error)   
                #  soup=BeautifulSoup(response.text, features='html.parser')   
-                fu=driver.getCurrentUrl()    
+                fu=driver.current_url  
                 ttbl=tbl(soup)
                 ttblk=list(ttbl.keys())
                 ttblv=list(ttbl.values())
