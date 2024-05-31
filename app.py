@@ -214,7 +214,7 @@ def get_html_text(url):
            
            # response = requests.get(testedurl, allow_redirects=True)
            
-            if True#response.status_code == 200:
+            if True:#response.status_code == 200:
                 driver.get(response.url)
                 time.sleep(2)
               #  wait = WebDriverWait(driver, 2)  # Wait up to 10 seconds
