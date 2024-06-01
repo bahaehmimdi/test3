@@ -56,28 +56,7 @@ def ensure_executable_permission(file_path):
     except Exception as e:
         return f"An error occurred: {e}"
 # Set up the ChromeDriver
-found=False
-for i in os.listdir():
- if  "gecko" in i: 
-     
-     try:
-      ensure_executable_permission(os.getcwd()+"/"+i)
-         
-    #  driver = webdriver.Firefox(service=Service()#webdriver.Chrome(options=chrome_options)
-      options = Options()
-      options.add_argument("--no-sandbox")
-      options.add_argument("--disable-dev-shm-usage")
-      options.add_argument("--headless")  # Run Chrome in headless mode
-      options.add_argument("--remote-debugging-port=9222")  # This option can help resolve the DevToolsActivePort error
 
-      options.binary_location = os.getcwd()+"/"+i
-      driver = webdriver.Firefox(options=options)
-      found=True
-      break   
-     except Exception as erored:  
-         print(erored)
-if not found:
-    raise "error"
 app = Flask(__name__)
 os.chdir("static")
 @app.route('/index')
@@ -318,4 +297,26 @@ def tasktest(subpath):
   except Exception as me:
    return str(me)   
 if __name__ == "__main__":
-   app.run(debug=True)
+    found=False
+    for i in os.listdir():
+     if  "gecko" in i: 
+     
+      try:
+       ensure_executable_permission(os.getcwd()+"/"+i)
+         
+    #  driver = webdriver.Firefox(service=Service()#webdriver.Chrome(options=chrome_options)
+       options = Options()
+       options.add_argument("--no-sandbox")
+       options.add_argument("--disable-dev-shm-usage")
+       options.add_argument("--headless")  # Run Chrome in headless mode
+       options.add_argument("--remote-debugging-port=9222")  # This option can help resolve the DevToolsActivePort error
+
+       options.binary_location = os.getcwd()+"/"+i
+       driver = webdriver.Firefox(options=options)
+       found=True
+       break   
+      except Exception as erored:  
+         print(erored)
+    if not found:
+     raise "error"
+    app.run()
