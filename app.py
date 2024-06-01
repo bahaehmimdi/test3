@@ -16,47 +16,16 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.firefox.options import Options
-driver=None
-#from webdriver_manager.chrome import ChromeDriverManager
-#from selenium.webdriver.chrome.options import Options
-#chrome_options = Options()
-#chrome_options.add_argument("--no-sandbox")
-#chrome_options.add_argument("--disable-dev-shm-usage")
-#chrome_options.add_argument("--headless")  # Run Chrome in headless mode
-#chrome_options.add_argument("--remote-debugging-port=9222")  # This option can help resolve the DevToolsActivePort error
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
+chrome_options = Options()
+chrome_options.add_argument("--no-sandbox")
+chrome_options.add_argument("--disable-dev-shm-usage")
+chrome_options.add_argument("--headless")  # Run Chrome in headless mode
+chrome_options.add_argument("--remote-debugging-port=9222")  # This option can help resolve the DevToolsActivePort error
 
-def ensure_executable_permission(file_path):
-    """
-    Ensure that the specified file has executable permissions.
-
-    Args:
-    file_path (str): The path to the file to check and modify permissions for.
-
-    Returns:
-    str: A message indicating the status of the file permissions.
-    """
-    try:
-        # Check if the file exists
-        if not os.path.isfile(file_path):
-            return f"Error: The file '{file_path}' does not exist."
-
-        # Get the current permissions of the file
-        permissions = os.stat(file_path).st_mode
-
-        # Check if the file already has execute permissions
-        if permissions & 0o111:
-            return f"The file '{file_path}' already has execute permissions."
-
-        # Add execute permissions
-        os.chmod(file_path, permissions | 0o111)
-        return f"Execute permissions have been added to the file '{file_path}'."
-
-    except Exception as e:
-        return f"An error occurred: {e}"
 # Set up the ChromeDriver
-
+driver = webdriver.Chrome(options=chrome_options)
 app = Flask(__name__)
 os.chdir("static")
 @app.route('/index')
@@ -297,26 +266,4 @@ def tasktest(subpath):
   except Exception as me:
    return str(me)   
 if __name__ == "__main__":
-    found=False
-    for i in os.listdir():
-     if  "gecko" in i: 
-     
-      try:
-       ensure_executable_permission(os.getcwd()+"/"+i)
-         
-    #  driver = webdriver.Firefox(service=Service()#webdriver.Chrome(options=chrome_options)
-       options = Options()
-       options.add_argument("--no-sandbox")
-       options.add_argument("--disable-dev-shm-usage")
-       options.add_argument("--headless")  # Run Chrome in headless mode
-       options.add_argument("--remote-debugging-port=9222")  # This option can help resolve the DevToolsActivePort error
-
-       options.binary_location = os.getcwd()+"/"+i
-       driver = webdriver.Firefox(options=options)
-       found=True
-       break   
-      except Exception as erored:  
-         print(erored)
-    if not found:
-     raise "error"
     app.run()
