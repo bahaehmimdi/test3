@@ -31,7 +31,7 @@ for i in os.listdir():
  if  "gecko" in i: 
      
      try:
-      driver = webdriver.Firefox(service=Service(i))#webdriver.Chrome(options=chrome_options)
+      driver = webdriver.Firefox(service=Service(os.getcwd()+"/"+i))#webdriver.Chrome(options=chrome_options)
       found=True
       break   
      except Exception as erored:  
