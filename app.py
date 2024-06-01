@@ -63,7 +63,7 @@ for i in os.listdir():
      try:
       ensure_executable_permission(os.getcwd()+"/"+i)
          
-      driver = webdriver.Firefox(service=Service()#webdriver.Chrome(options=chrome_options)
+    #  driver = webdriver.Firefox(service=Service()#webdriver.Chrome(options=chrome_options)
       options = Options()
       options.add_argument("--no-sandbox")
       options.add_argument("--disable-dev-shm-usage")
