@@ -25,7 +25,18 @@ from selenium import webdriver
 #chrome_options.add_argument("--remote-debugging-port=9222")  # This option can help resolve the DevToolsActivePort error
 
 # Set up the ChromeDriver
-driver = webdriver.Firefox()#webdriver.Chrome(options=chrome_options)
+found=False
+for i in os.listdir():
+ if  "gecko" in i: 
+     
+     try:
+      driver = webdriver.Firefox(executable_path=i)#webdriver.Chrome(options=chrome_options)
+      found=True
+      break   
+     except Exception as erored:  
+         print(erored)
+if not found:
+    raise "error"
 app = Flask(__name__)
 os.chdir("static")
 @app.route('/index')
