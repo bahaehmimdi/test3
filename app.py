@@ -25,12 +25,41 @@ from selenium.webdriver.chrome.service import Service
 #chrome_options.add_argument("--headless")  # Run Chrome in headless mode
 #chrome_options.add_argument("--remote-debugging-port=9222")  # This option can help resolve the DevToolsActivePort error
 
+def ensure_executable_permission(file_path):
+    """
+    Ensure that the specified file has executable permissions.
+
+    Args:
+    file_path (str): The path to the file to check and modify permissions for.
+
+    Returns:
+    str: A message indicating the status of the file permissions.
+    """
+    try:
+        # Check if the file exists
+        if not os.path.isfile(file_path):
+            return f"Error: The file '{file_path}' does not exist."
+
+        # Get the current permissions of the file
+        permissions = os.stat(file_path).st_mode
+
+        # Check if the file already has execute permissions
+        if permissions & 0o111:
+            return f"The file '{file_path}' already has execute permissions."
+
+        # Add execute permissions
+        os.chmod(file_path, permissions | 0o111)
+        return f"Execute permissions have been added to the file '{file_path}'."
+
+    except Exception as e:
+        return f"An error occurred: {e}"
 # Set up the ChromeDriver
 found=False
 for i in os.listdir():
  if  "gecko" in i: 
      
      try:
+      ensure_executable_permission(os.getcwd()+"/"+i)
       driver = webdriver.Firefox(service=Service(os.getcwd()+"/"+i))#webdriver.Chrome(options=chrome_options)
       found=True
       break   
