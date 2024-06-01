@@ -70,7 +70,7 @@ for i in os.listdir():
       options.add_argument("--headless")  # Run Chrome in headless mode
       options.add_argument("--remote-debugging-port=9222")  # This option can help resolve the DevToolsActivePort error
 
-      options.binary_location = os.getcwd()+"/"+i)
+      options.binary_location = os.getcwd()+"/"+i
       driver = webdriver.Firefox(options=options)
       found=True
       break   
