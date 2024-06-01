@@ -17,6 +17,8 @@ from selenium.webdriver.support import expected_conditions as EC
 import time
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.firefox.options import Options
+
 #from webdriver_manager.chrome import ChromeDriverManager
 #from selenium.webdriver.chrome.options import Options
 #chrome_options = Options()
@@ -60,7 +62,16 @@ for i in os.listdir():
      
      try:
       ensure_executable_permission(os.getcwd()+"/"+i)
-      driver = webdriver.Firefox(service=Service(os.getcwd()+"/"+i))#webdriver.Chrome(options=chrome_options)
+         
+      driver = webdriver.Firefox(service=Service()#webdriver.Chrome(options=chrome_options)
+      options = Options()
+      options.add_argument("--no-sandbox")
+      options.add_argument("--disable-dev-shm-usage")
+      options.add_argument("--headless")  # Run Chrome in headless mode
+      options.add_argument("--remote-debugging-port=9222")  # This option can help resolve the DevToolsActivePort error
+
+      options.binary_location = os.getcwd()+"/"+i)
+      driver = webdriver.Firefox(options=options)
       found=True
       break   
      except Exception as erored:  
